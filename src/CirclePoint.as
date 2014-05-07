@@ -12,7 +12,7 @@ import flash.events.Event;
 
 public class CirclePoint extends Sprite {
     private var M:Number = 1;
-    private var U:Number = 0.05;
+    private var U:Number = 0.01;
 	private var _defaultX:Number = 0;
 	private var _defaultY:Number = 0;
     private var _forceX:Number = 0;

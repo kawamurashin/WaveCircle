@@ -13,6 +13,7 @@ import flash.events.TimerEvent;
 import flash.utils.Timer;
 
 public class CircleRing extends Sprite {
+	private const MEMBERS:uint = 360;
     private const K:Number = 0.1;
 
     public function CircleRing() {
@@ -89,14 +90,42 @@ public class CircleRing extends Sprite {
         var point:CirclePoint;
         var theta:Number;
         var force:Number;
+		var i:uint;
+		var n:uint;
+		var number:uint;
+		var num:int;
+		var numberList:Array = [];
+		var f:Number;
+		var w:uint;
+		
+		f = 2 + 8 * Math.random();
+		//n =  Math.floor(Math.random() * pointList.length);
+		number = Math.floor(Math.random() * pointList.length);
+		w = 6 + 18 * Math.random();
+		n = w;
+		for (i = 0; i < n; i++)
+		{
+			num = number - Math.floor(n * 0.5) + i;
+			if (num < 0)
+			{
+				num += MEMBERS;
+			}
+			else if ( num >= MEMBERS)
+			{
+				num -= MEMBERS;
+			}
+			
+			
+			point = pointList[num];
+			
+			theta = Math.atan2(viewManager.cy - point.y, viewManager.cx - point.x);
+			force = f * Math.sin(Math.PI * (i / n));
+			point.forceX = force * Math.cos(theta);
+			point.forceY = force * Math.sin(theta);
+			point.onEnterFrame();
+		}
 
-        force = 50;
-        point = pointList[Math.floor(Math.random() *pointList.length)];
-        //point = pointList[0];
-        theta = Math.atan2(viewManager.cy - point.y,viewManager.cx - point.x);
-        point.forceX = force * Math.cos(theta);
-        point.forceY = force * Math.sin(theta);
-        point.onEnterFrame();
+        //
 
         var timer:Timer = new Timer(1000,1);
         timer.addEventListener(TimerEvent.TIMER, timerHandler);
@@ -122,7 +151,7 @@ public class CircleRing extends Sprite {
         //
         pointList = [];
         radius = 200;
-        n = 180;
+        n = MEMBERS;
         for (i = 0; i < n; i++) {
             theta = i * (360 / n) * Math.PI / 180;
             point = new CirclePoint();
