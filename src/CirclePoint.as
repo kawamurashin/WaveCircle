@@ -12,9 +12,11 @@ import flash.events.Event;
 
 public class CirclePoint extends Sprite {
     private var M:Number = 1;
-    private var U:Number = 0.5;
-    private var _forceX:Number;
-    private var _forceY:Number
+    private var U:Number = 0.05;
+	private var _defaultX:Number = 0;
+	private var _defaultY:Number = 0;
+    private var _forceX:Number = 0;
+    private var _forceY:Number = 0;
     private var _vx:Number = 0;
     private var _vy:Number = 0;
     public function CirclePoint() {
@@ -24,6 +26,7 @@ public class CirclePoint extends Sprite {
     public function onEnterFrame():void
     {
         vx += (_forceX/M) - U * vx;
+
         vy += (_forceY/M) - U * vy;
         x += vx;
         y += vy;
@@ -37,9 +40,11 @@ public class CirclePoint extends Sprite {
     }
 
     private function layout():void {
+		/*
         var g:Graphics = this.graphics;
         g.beginFill(0xff0000);
         g.drawCircle(0,0,2);
+		*/
     }
 
     public function get vx():Number {
@@ -73,5 +78,27 @@ public class CirclePoint extends Sprite {
     public function set forceY(value:Number):void {
         _forceY = value;
     }
+	
+	public function get defaultX():Number 
+	{
+		return _defaultX;
+	}
+	
+	public function set defaultX(value:Number):void 
+	{
+		_defaultX = value;
+		this.x = _defaultX;
+	}
+	
+	public function get defaultY():Number 
+	{
+		return _defaultY;
+	}
+	
+	public function set defaultY(value:Number):void 
+	{
+		_defaultY = value;
+		this.y = _defaultY;
+	}
 }
 }

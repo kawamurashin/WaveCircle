@@ -23,7 +23,7 @@ public class CircleRing extends Sprite {
     private var expansionForce:Number;
     private var radius:Number;
     private var viewManager:ViewManager;
-    private var balancePoint:Sprite;
+    //private var balancePoint:Sprite;
     private var pointList:Array;
 
     public function onEnterFrame():void {
@@ -34,21 +34,22 @@ public class CircleRing extends Sprite {
         var point:CirclePoint;
         var nextPoint:CirclePoint;
         var force:Number;
-        var theta:Number = 0;
-        var distance:Number = 0;
         var disX:Number = 0;
         var disY:Number = 0;
-        var balanceX:Number = 0;
-        var balanceY:Number = 0
+
         //
         n = pointList.length;
         for (i = 0; i < n; i++) {
             point = pointList[i];
-            theta = Math.atan2(point.y - balancePoint.y, point.x - balancePoint.x);
-            distance = Math.sqrt(Math.pow(point.x - balancePoint.x, 2) + Math.pow(point.y - balancePoint.y, 2));
-            force = 50 / distance;
-            point.forceX = force * Math.cos(theta);
-            point.forceY = force * Math.sin(theta);
+			
+			disX = point.defaultX - point.x;
+			disY = point.defaultY - point.y;
+			
+			point.forceX = 0.05 * disX;
+			point.forceY = 0.05 * disY;
+			
+
+			
             //
             if (i == 0) {
                 prePoint = pointList[n - 1];
@@ -71,25 +72,17 @@ public class CircleRing extends Sprite {
             disY = nextPoint.y - point.y;
             point.forceX += K * disX;
             point.forceY += K * disY;
-
-
+			
+			
         }
-        n = pointList.length;
-        for (i = 0; i < n; i++) {
-            point = pointList[i];
-            point.onEnterFrame();
-            balanceX += point.x;
-            balanceY += point.y;
-        }
-        balanceX = balanceX/n;
-        balanceY = balanceY/n;
-        balancePoint.x = balanceX;
-        balancePoint.y = balanceY;
+		
+		for (i = 0; i < n; i++)
+		{
+			point = pointList[i];
+			point.onEnterFrame();
+		}
+		
         draw();
-
-        var timer:Timer = new Timer(1000);
-        timer.addEventListener(TimerEvent.TIMER, timerHandler);
-        timer.start();
     }
 
     private function timerHandler(event:TimerEvent):void {
@@ -97,14 +90,17 @@ public class CircleRing extends Sprite {
         var theta:Number;
         var force:Number;
 
-        force = 1;
+        force = 50;
         point = pointList[Math.floor(Math.random() *pointList.length)];
-        theta = Math.atan2(balancePoint.y - point.y,balancePoint.x - point.x);
+        //point = pointList[0];
+        theta = Math.atan2(viewManager.cy - point.y,viewManager.cx - point.x);
         point.forceX = force * Math.cos(theta);
         point.forceY = force * Math.sin(theta);
         point.onEnterFrame();
 
-
+        var timer:Timer = new Timer(1000,1);
+        timer.addEventListener(TimerEvent.TIMER, timerHandler);
+        timer.start();
     }
 
     private function layout():void {
@@ -116,24 +112,32 @@ public class CircleRing extends Sprite {
         //
         viewManager = ViewManager.getInstance();
         //
+		/*
         balancePoint = new Sprite();
         addChild(balancePoint);
         g = balancePoint.graphics;
         g.beginFill(0xFF0000);
-        g.drawCircle(0,0,8);
+        g.drawCircle(0, 0, 8);
+		*/
         //
         pointList = [];
-        radius = 100;
-        n = 90;
+        radius = 200;
+        n = 180;
         for (i = 0; i < n; i++) {
             theta = i * (360 / n) * Math.PI / 180;
             point = new CirclePoint();
             addChild(point);
-            point.x = viewManager.cx + radius * Math.cos(theta);
-            point.y = viewManager.cy + radius * Math.sin(theta);
+            point.defaultX = viewManager.cx + radius * Math.cos(theta);
+            point.defaultY = viewManager.cy + radius * Math.sin(theta);
             pointList.push(point)
         }
         draw();
+		
+		/**/
+        var timer:Timer = new Timer(1000,1);
+        timer.addEventListener(TimerEvent.TIMER, timerHandler);
+        timer.start();
+		
     }
 
     private function draw():void {
@@ -152,7 +156,6 @@ public class CircleRing extends Sprite {
             else {
                 g.lineTo(point.x, point.y);
             }
-
         }
 
     }
