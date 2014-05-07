@@ -12,7 +12,7 @@ import flash.events.Event;
 
 public class CirclePoint extends Sprite {
     private var M:Number = 1;
-    private var U:Number = 0.3;
+    private var U:Number = 0.5;
     private var _forceX:Number;
     private var _forceY:Number
     private var _vx:Number = 0;
@@ -23,8 +23,8 @@ public class CirclePoint extends Sprite {
     }
     public function onEnterFrame():void
     {
-        vx += (_forceX/M) - U *vx;
-        vy += (_forceY/M) - U *vy;
+        vx += (_forceX/M) - U * vx;
+        vy += (_forceY/M) - U * vy;
         x += vx;
         y += vy;
 

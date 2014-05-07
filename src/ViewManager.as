@@ -13,7 +13,7 @@ public class ViewManager extends Sprite{
     private static var instance:ViewManager;
     public var cx:Number;
     public var cy:Number;
-    var circle:CircleRing;
+    private var circle:CircleRing;
     public function ViewManager(block:SingletonBlock) {
         if(stage)init(null);
         else addEventListener(Event.ADDED_TO_STAGE,init);

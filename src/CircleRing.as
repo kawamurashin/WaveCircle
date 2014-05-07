@@ -46,7 +46,7 @@ public class CircleRing extends Sprite {
             point = pointList[i];
             theta = Math.atan2(point.y - balancePoint.y, point.x - balancePoint.x);
             distance = Math.sqrt(Math.pow(point.x - balancePoint.x, 2) + Math.pow(point.y - balancePoint.y, 2));
-            force = 5 / distance;
+            force = 50 / distance;
             point.forceX = force * Math.cos(theta);
             point.forceY = force * Math.sin(theta);
             //
@@ -87,7 +87,7 @@ public class CircleRing extends Sprite {
         balancePoint.y = balanceY;
         draw();
 
-        var timer:Timer = new Timer(1000,1);
+        var timer:Timer = new Timer(1000);
         timer.addEventListener(TimerEvent.TIMER, timerHandler);
         timer.start();
     }
@@ -97,7 +97,7 @@ public class CircleRing extends Sprite {
         var theta:Number;
         var force:Number;
 
-        force = 10;
+        force = 1;
         point = pointList[Math.floor(Math.random() *pointList.length)];
         theta = Math.atan2(balancePoint.y - point.y,balancePoint.x - point.x);
         point.forceX = force * Math.cos(theta);
